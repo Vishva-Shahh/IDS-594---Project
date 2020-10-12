@@ -8,60 +8,45 @@ Original file is located at
 """
 
 # import os
-# os.listdir('../input/')
-from google.colab import drive
-drive.mount('/content/drive')
-
 import warnings
 warnings.filterwarnings('ignore')
 
-import os
-os.chdir('/content/drive/My Drive/IDS 576/Project/Final Project (1)')
-
-from python_utils import *
-import time
-import matplotlib.pyplot as plt
-import cv2 as cv
-from math import sqrt 
-import pandas as pd
 import numpy as np
-from torchvision import transforms as tfs
-import torch
-from PIL import Image
-from torch.autograd import Variable
-from torchvision.utils import save_image
-import pickle
-import random
-import argparse
-import sys
-from matplotlib import pyplot as plt
-import matplotlib.image as mpimg
-from matplotlib.pyplot import ion, show
+from PIL import Image, ImageOps
 import io
 
-import pandas as pd
-import flask
-import tensorflow as tf
+from flask import Flask, request, render_template, flash, redirect, jsonify
+import torch
+import torchvision.transforms as transforms
 
 global graph
 
-graph = tf.compat.v1.get_default_graph()
+# graph = tf.compat.v1.get_default_graph()
 
 model = torch.load('fer2013_resnet18_model.pkl', map_location=torch.device('cpu'))
 model.eval()
-app = flask.Flask(__name__)
+app = Flask(__name__)
+app.secret_key = 'some secret key'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neural']
 
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 def transform_image(image_bytes):
+    my_transforms = transforms.ToTensor()
     image = Image.open(io.BytesIO(image_bytes))
+    image = ImageOps.grayscale(image)
     return my_transforms(image).unsqueeze(0)
 
 
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
     outputs = model.forward(tensor)
-    outputs = np.argmax(outputs.data.numpy())
-    return outputs
+    emotion = labels[np.argmax(outputs.data.numpy())]
+    return emotion
 
 
 @app.route("/", methods=["GET","POST"])
@@ -84,6 +69,7 @@ def predict():
 
           class_name = get_prediction(image)
           return jsonify({'class_name': class_name})
-          
+
+
 if __name__ == '__main__':
-  app.run(host='0.0.0.0')
+  app.run()
