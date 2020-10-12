@@ -8,7 +8,6 @@ Original file is located at
 """
 
 # import os
-<<<<<<< HEAD
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -70,7 +69,6 @@ def predict():
 
           class_name = get_prediction(image)
           return jsonify({'class_name': class_name})
-<<<<<<< HEAD
 
 
 if __name__ == '__main__':
