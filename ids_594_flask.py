@@ -8,6 +8,7 @@ Original file is located at
 """
 
 # import os
+<<<<<<< HEAD
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -45,8 +46,8 @@ def transform_image(image_bytes):
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
     outputs = model.forward(tensor)
-    emotion = labels[np.argmax(outputs.data.numpy())]
-    return emotion
+    pred = labels[np.argmax(outputs.data.numpy())]
+    return pred
 
 
 @app.route("/", methods=["GET","POST"])
@@ -69,6 +70,7 @@ def predict():
 
           class_name = get_prediction(image)
           return jsonify({'class_name': class_name})
+<<<<<<< HEAD
 
 
 if __name__ == '__main__':
