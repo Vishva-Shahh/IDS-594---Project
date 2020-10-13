@@ -1,3 +1,5 @@
+https://download.pytorch.org/whl/cpu/torch-1.6.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torchvision-0.7.0%2Bcpu-cp36-cp36m-linux_x86_64.whl
 certifi==2020.6.20
 click==7.1.2
 Flask==1.1.2
@@ -8,7 +10,5 @@ Jinja2==2.11.2
 MarkupSafe==1.1.1
 numpy==1.19.2
 Pillow==7.2.0
-torch==1.6.0+cpu
-torchvision==0.7.0+cpu
 Werkzeug==1.0.1
 wincertstore==0.2
