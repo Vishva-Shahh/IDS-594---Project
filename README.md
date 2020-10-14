@@ -1,2 +1,2 @@
-# IDS-594---Project
+# IDS-594-Project
 Deploying ML Model
